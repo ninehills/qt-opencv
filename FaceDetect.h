@@ -11,6 +11,7 @@
 
 #include <iostream>
 
+int initFaceDetect(void);
 int faceDetect(IplImage *, double);
 
 #endif // FACEDETECT_H

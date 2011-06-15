@@ -35,11 +35,15 @@
 // Qt header files
 #include <QtGui/QApplication>
 
+#include "FaceDetect.h"
+
 #define X_INITIAL 0
 #define Y_INITIAL 0
 
 int main(int argc, char *argv[])
 {
+    if(initFaceDetect())
+        return -1;
     QApplication a(argc, argv);
     a.setApplicationVersion(QUOTE(APP_VERSION));
     MainWindow w;

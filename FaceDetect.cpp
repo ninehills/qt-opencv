@@ -4,10 +4,12 @@ using namespace std;
 using namespace cv;
 
 //TODO: hardcoding!, need cascade files in run  directory
-String cascadeName =
+String g_cascadeName =
 "haarcascades/haarcascade_frontalface_alt.xml";
-String nestedCascadeName =
+String g_nestedCascadeName =
 "haarcascades/haarcascade_eye_tree_eyeglasses.xml";
+
+CascadeClassifier g_cascade, g_nestedCascade;
 
 void detectAndDraw( Mat& img,
                    CascadeClassifier& cascade, CascadeClassifier& nestedCascade,
@@ -72,14 +74,18 @@ void detectAndDraw( Mat& img,
     }
 }
 
+int initFaceDetect(void)
+{
+    if(!g_cascade.load(g_cascadeName))
+        return -1;
+    if(!g_nestedCascade.load(g_nestedCascadeName))
+        return -1;
+    return 0;
+}
+
 int faceDetect(IplImage *iplImage, double scale)
 {
-    CascadeClassifier cascade, nestedCascade;
-    if(!cascade.load(cascadeName))
-        return -1;
-    if(!nestedCascade.load(nestedCascadeName))
-        return -1;
     Mat img = cvarrToMat(iplImage);
-    detectAndDraw(img, cascade, nestedCascade, scale);
+    detectAndDraw(img, g_cascade, g_nestedCascade, scale);
     return 0;
 }

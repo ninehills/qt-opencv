@@ -34,8 +34,20 @@
 
 // Qt header files
 #include <QtGui>
+#include <QFileDialog>
 // Header file containing default values
 #include "DefaultValues.h"
+
+#include <opencv2/objdetect/objdetect.hpp>
+
+
+cv::String ConvertQString2CVString(const QString &qs)
+{
+    // QString->cv::String
+    // see: http://stackoverflow.com/questions/4214369/how-to-convert-qstring-to-stdstring
+    cv::String cs = qs.toUtf8().constData();
+    return cs;
+}
 
 ProcessingSettingsDialog::ProcessingSettingsDialog(QWidget *parent) : QDialog(parent)
 {
@@ -51,6 +63,8 @@ ProcessingSettingsDialog::ProcessingSettingsDialog(QWidget *parent) : QDialog(pa
     connect(resetFaceDetectToDefaultsButton,SIGNAL(released()),SLOT(resetFaceDetectToDefaults()));
     connect(applyButton,SIGNAL(released()),SLOT(updateStoredSettingsFromDialog()));
     connect(smoothTypeGroup,SIGNAL(buttonReleased(QAbstractButton*)),SLOT(smoothTypeChange(QAbstractButton*)));
+    connect(chooseFacedetectCascadeFileButton,SIGNAL(released()),SLOT(chooseFacedetectCascadeFile()));
+    connect(chooseFacedetectNestedCascadeFileButton,SIGNAL(released()),SLOT(chooseFacedetectNestedCascadeFile()));
     // dilateIterationsEdit input string validation
     QRegExp rx5("[1-9]\\d{0,1}"); // Integers 1 to 99
     QRegExpValidator *validator5 = new QRegExpValidator(rx5, 0);
@@ -111,6 +125,12 @@ void ProcessingSettingsDialog::updateStoredSettingsFromDialog()
     processingSettings.cannyApertureSize=cannyApertureSizeEdit->text().toInt();
     // Facedetect
     processingSettings.facedetectScale=facedetectScaleEdit->text().toDouble();
+    processingSettings.facedetectCascadeFilename=facedetectCascadeFilenameEdit->text();
+    if(!processingSettings.facedetectCascadeFile.load(ConvertQString2CVString(processingSettings.facedetectCascadeFilename)))
+        qDebug() << "ERROR: Can not open cascade file.";
+    processingSettings.facedetectNestedCascadeFilename=facedetectNestedCasssscadeFilenameEdit->text();
+    if(processingSettings.facedetectNestedCascadeFile.load(ConvertQString2CVString(processingSettings.facedetectNestedCascadeFilename)))
+        qDebug() << "ERROR: Can not open nested cascade file.";
     // Update processing flags in processingThread
     emit newProcessingSettings(processingSettings);
 } // updateStoredSettingsFromDialog()
@@ -147,6 +167,8 @@ void ProcessingSettingsDialog::updateDialogSettingsFromStored()
     cannyApertureSizeEdit->setText(QString::number(processingSettings.cannyApertureSize));
     // Facedetct
     facedetectScaleEdit->setText(QString::number(processingSettings.facedetectScale));
+    facedetectCascadeFilenameEdit->setText(processingSettings.facedetectCascadeFilename);
+    facedetectNestedCasssscadeFilenameEdit->setText(processingSettings.facedetectNestedCascadeFilename);
     // Enable/disable appropriate Smooth parameter inputs
     smoothTypeChange(smoothTypeGroup->checkedButton());
 } // updateDialogSettingsFromStored()
@@ -386,4 +408,28 @@ void ProcessingSettingsDialog::resetCannyDialogToDefaults()
 void ProcessingSettingsDialog::resetFaceDetectToDefaults()
 {
     facedetectScaleEdit->setText(QString::number(DEFAULT_FACEDETECT_SCALE));
+    facedetectCascadeFilenameEdit->setText(QString::fromUtf8(DEFAULT_FACEDETECT_CASCADE_FILENAME));
+    facedetectNestedCasssscadeFilenameEdit->setText(QString::fromUtf8(DEFAULT_FACEDETECT_NESTED_CASCADE_FILENAME));
 } // resetFaceDetectToDefaults()
+
+void ProcessingSettingsDialog::chooseFacedetectCascadeFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+         tr("Open Front Face Cascade Classifier File"), ".", tr("XML Files (*.xml)"));
+    if(fileName.isNull())
+    {
+        fileName = QString::fromUtf8(DEFAULT_FACEDETECT_CASCADE_FILENAME);
+    }
+    facedetectCascadeFilenameEdit->setText(fileName);
+} //chooseFacedetectCascadeFile()
+
+void ProcessingSettingsDialog::chooseFacedetectNestedCascadeFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+         tr("Open Nested Cascade Classifier File"), ".", tr("XML Files (*.xml)"));
+    if(fileName.isNull())
+    {
+        fileName = QString::fromUtf8(DEFAULT_FACEDETECT_NESTED_CASCADE_FILENAME);
+    }
+    facedetectNestedCasssscadeFilenameEdit->setText(fileName);
+}

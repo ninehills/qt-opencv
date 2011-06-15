@@ -57,6 +57,8 @@ private slots:
     void resetFaceDetectToDefaults();
     void validateDialog();
     void smoothTypeChange(QAbstractButton*);
+    void chooseFacedetectCascadeFile();
+    void chooseFacedetectNestedCascadeFile();
 signals:
     void newProcessingSettings(struct ProcessingSettings p_settings);
 };

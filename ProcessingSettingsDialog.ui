@@ -38,7 +38,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="smoothTab">
        <attribute name="title">
@@ -1030,7 +1030,7 @@
           <x>10</x>
           <y>10</y>
           <width>401</width>
-          <height>221</height>
+          <height>226</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -1083,6 +1083,48 @@
              </property>
              <property name="text">
               <string>[1.0 - 2.0]</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Front Face Cascade Classifier File:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLineEdit" name="facedetectCascadeFilenameEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="chooseFacedetectCascadeFileButton">
+             <property name="text">
+              <string>Choose...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Nested Cascade Classifire File:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <item>
+            <widget class="QLineEdit" name="facedetectNestedCasssscadeFilenameEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="chooseFacedetectNestedCascadeFileButton">
+             <property name="text">
+              <string>Choose...</string>
              </property>
             </widget>
            </item>

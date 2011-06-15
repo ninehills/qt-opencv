@@ -56,7 +56,7 @@
 #define DEFAULT_CANNY_THRESHOLD_2 100
 #define DEFAULT_CANNY_APERTURE_SIZE 3
 // FACEDETECT
-#define DEFAULT_FACEDETECT_SCALE 1.3
+#define DEFAULT_FACEDETECT_SCALE 1.0
 #define DEFAULT_FACEDETECT_CASCADE_FILENAME "haarcascades/haarcascade_frontalface_alt.xml"
 #define DEFAULT_FACEDETECT_NESTED_CASCADE_FILENAME "haarcascades/haarcascade_eye_tree_eyeglasses.xml"
 

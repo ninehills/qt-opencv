@@ -35,6 +35,7 @@
 
 // Qt header files
 #include <QtGui>
+#include <opencv2/objdetect/objdetect.hpp>
 
 // ProcessingSettings structure definition
 struct ProcessingSettings{
@@ -52,6 +53,8 @@ struct ProcessingSettings{
     double facedetectScale;
     QString facedetectCascadeFilename;
     QString facedetectNestedCascadeFilename;
+    cv::CascadeClassifier facedetectCascadeFile;
+    cv::CascadeClassifier facedetectNestedCascadeFile;
 };
 
 // ProcessingFlags structure definition

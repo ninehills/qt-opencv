@@ -80,10 +80,8 @@ ProcessingThread::ProcessingThread(ImageBuffer *imageBuffer, int inputSourceWidt
     cannyThreshold2=DEFAULT_CANNY_THRESHOLD_2;
     cannyApertureSize=DEFAULT_CANNY_APERTURE_SIZE;
     facedetectScale=DEFAULT_FACEDETECT_SCALE;
-    facedetectCascadeFilename=DEFAULT_FACEDETECT_CASCADE_FILENAME;
-    facedetectNestedCascadeFilename=DEFAULT_FACEDETECT_NESTED_CASCADE_FILENAME;
-    if(this->loadCascade())
-        qDebug() << "ERROR: Can not load CascadeClassifier File.";
+    facedetectCascadeFile.load(DEFAULT_FACEDETECT_CASCADE_FILENAME);
+    facedetectNestedCascadeFile.load(DEFAULT_FACEDETECT_NESTED_CASCADE_FILENAME);
     // Initialize currentROI variable
     currentROI=cvRect(0,0,inputSourceWidth,inputSourceHeight);
     // Store original ROI
@@ -197,7 +195,7 @@ void ProcessingThread::run()
                 // facedetect
                 if(facedetectOn)
                 {
-                    faceDetect(currentFrameCopy, facedetectCascade, facedetectNestedCascade, facedetectScale);
+                    faceDetect(currentFrameCopy, facedetectCascadeFile, facedetectNestedCascadeFile, facedetectScale);
                 } // if
             } // else
             ////////////////////////////////////
@@ -313,8 +311,8 @@ void ProcessingThread::updateProcessingSettings(struct ProcessingSettings proces
     this->cannyThreshold2=processingSettings.cannyThreshold2;
     this->cannyApertureSize=processingSettings.cannyApertureSize;
     this->facedetectScale=processingSettings.facedetectScale;
-    this->facedetectCascadeFilename=processingSettings.facedetectCascadeFilename;
-    this->facedetectNestedCascadeFilename=processingSettings.facedetectNestedCascadeFilename;
+    this->facedetectCascadeFile=processingSettings.facedetectCascadeFile;
+    this->facedetectNestedCascadeFile=processingSettings.facedetectNestedCascadeFile;
 } // updateProcessingSettings()
 
 void ProcessingThread::updateTaskData(struct TaskData taskData)
@@ -342,16 +340,3 @@ CvRect ProcessingThread::getCurrentROI()
 {
     return currentROI;
 } // getCurrentROI();
-
-int ProcessingThread::loadCascade()
-{
-    // QString->cv::String
-    // see: http://stackoverflow.com/questions/4214369/how-to-convert-qstring-to-stdstring
-    cv::String cascadeFilename = this->facedetectCascadeFilename.toUtf8().constData();
-    cv::String nestedCascadeFilename = this->facedetectNestedCascadeFilename.toUtf8().constData();
-    if(!this->facedetectCascade.load(cascadeFilename))
-        return -1;
-    if(!this->facedetectNestedCascade.load(nestedCascadeFilename))
-        return -1;
-    return 0;
-}

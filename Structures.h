@@ -49,6 +49,7 @@ struct ProcessingSettings{
     double cannyThreshold1;
     double cannyThreshold2;
     int cannyApertureSize;
+    double facedetectScale;
 };
 
 // ProcessingFlags structure definition
@@ -59,6 +60,7 @@ struct ProcessingFlags{
     bool erodeOn;
     bool flipOn;
     bool cannyOn;
+    bool facedetectOn;
 };
 
 // TaskData structure definition

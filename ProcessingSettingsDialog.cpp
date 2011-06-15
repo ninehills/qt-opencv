@@ -48,6 +48,7 @@ ProcessingSettingsDialog::ProcessingSettingsDialog(QWidget *parent) : QDialog(pa
     connect(resetErodeToDefaultsButton,SIGNAL(released()),SLOT(resetErodeDialogToDefaults()));
     connect(resetFlipToDefaultsButton,SIGNAL(released()),SLOT(resetFlipDialogToDefaults()));
     connect(resetCannyToDefaultsButton,SIGNAL(released()),SLOT(resetCannyDialogToDefaults()));
+    connect(resetFaceDetectToDefaultsButton,SIGNAL(released()),SLOT(resetFaceDetectToDefaults()));
     connect(applyButton,SIGNAL(released()),SLOT(updateStoredSettingsFromDialog()));
     connect(smoothTypeGroup,SIGNAL(buttonReleased(QAbstractButton*)),SLOT(smoothTypeChange(QAbstractButton*)));
     // dilateIterationsEdit input string validation
@@ -108,6 +109,8 @@ void ProcessingSettingsDialog::updateStoredSettingsFromDialog()
     processingSettings.cannyThreshold1=cannyThresh1Edit->text().toDouble();
     processingSettings.cannyThreshold2=cannyThresh2Edit->text().toDouble();
     processingSettings.cannyApertureSize=cannyApertureSizeEdit->text().toInt();
+    // Facedetect
+    processingSettings.facedetectScale=facedetectScaleEdit->text().toDouble();
     // Update processing flags in processingThread
     emit newProcessingSettings(processingSettings);
 } // updateStoredSettingsFromDialog()
@@ -142,6 +145,8 @@ void ProcessingSettingsDialog::updateDialogSettingsFromStored()
     cannyThresh1Edit->setText(QString::number(processingSettings.cannyThreshold1));
     cannyThresh2Edit->setText(QString::number(processingSettings.cannyThreshold2));
     cannyApertureSizeEdit->setText(QString::number(processingSettings.cannyApertureSize));
+    // Facedetct
+    facedetectScaleEdit->setText(QString::number(processingSettings.facedetectScale));
     // Enable/disable appropriate Smooth parameter inputs
     smoothTypeChange(smoothTypeGroup->checkedButton());
 } // updateDialogSettingsFromStored()
@@ -158,6 +163,8 @@ void ProcessingSettingsDialog::resetAllDialogToDefaults()
     resetFlipDialogToDefaults();
     // Canny
     resetCannyDialogToDefaults();
+    // Facedetect
+    resetFaceDetectToDefaults();
 } // resetAllDialogToDefaults()
 
 void ProcessingSettingsDialog::smoothTypeChange(QAbstractButton *input)
@@ -312,6 +319,11 @@ void ProcessingSettingsDialog::validateDialog()
         cannyApertureSizeEdit->setText(QString::number(DEFAULT_CANNY_APERTURE_SIZE));
         inputEmpty=true;
     }
+    if(facedetectScaleEdit->text().isEmpty())
+    {
+        facedetectScaleEdit->setText(QString::number(DEFAULT_FACEDETECT_SCALE));
+        inputEmpty=true;
+    }
     // Check if any of the inputs were empty
     if(inputEmpty)
         QMessageBox::warning(this->parentWidget(),"WARNING:","One or more inputs empty.\n\nAutomatically set to default values.");
@@ -370,3 +382,8 @@ void ProcessingSettingsDialog::resetCannyDialogToDefaults()
     cannyThresh2Edit->setText(QString::number(DEFAULT_CANNY_THRESHOLD_2));
     cannyApertureSizeEdit->setText(QString::number(DEFAULT_CANNY_APERTURE_SIZE));
 } // resetCannyDialogToDefaults()
+
+void ProcessingSettingsDialog::resetFaceDetectToDefaults()
+{
+    facedetectScaleEdit->setText(QString::number(DEFAULT_FACEDETECT_SCALE));
+} // resetFaceDetectToDefaults()

@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     processingFlags.erodeOn=false;
     processingFlags.flipOn=false;
     processingFlags.cannyOn=false;
+    processingFlags.facedetectOn=false;
     // Save application version in QString variable
     appVersion=QUOTE(APP_VERSION);
     // Connect signals to slots
@@ -67,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(erodeAction, SIGNAL(toggled(bool)), this, SLOT(setErode(bool)));
     connect(flipAction, SIGNAL(toggled(bool)), this, SLOT(setFlip(bool)));
     connect(cannyAction, SIGNAL(toggled(bool)), this, SLOT(setCanny(bool)));
+    connect(facedetectAction, SIGNAL(toggled(bool)), this, SLOT(setFacedetect(bool)));
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(setProcessingSettings()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
     connect(clearImageBufferButton, SIGNAL(released()), this, SLOT(clearImageBuffer()));
@@ -84,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     erodeAction->setChecked(false);
     flipAction->setChecked(false);
     cannyAction->setChecked(false);
+    facedetectAction->setChecked(false);
     frameLabel->setText("No camera connected.");
     imageBufferBar->setValue(0);
     imageBufferLabel->setText("[000/000]");
@@ -237,6 +240,7 @@ void MainWindow::disconnectCamera()
         erodeAction->setChecked(false);
         flipAction->setChecked(false);
         cannyAction->setChecked(false);
+        facedetectAction->setChecked(false);
         frameLabel->setText("No camera connected.");
         imageBufferBar->setValue(0);
         imageBufferLabel->setText("[000/000]");
@@ -334,6 +338,18 @@ void MainWindow::setCanny(bool input)
     // Update processing flags in processingThread
     emit newProcessingFlags(processingFlags);
 } // setCanny()
+
+void MainWindow::setFacedetect(bool input)
+{
+    // Not checked
+    if(!input)
+        processingFlags.facedetectOn=false;
+    // Checked
+    else if(input)
+        processingFlags.facedetectOn=true;
+    // Update processing flags in processingThread
+    emit newProcessingFlags(processingFlags);
+} // setFacedetect()
 
 void MainWindow::updateFrame(const QImage &frame)
 {

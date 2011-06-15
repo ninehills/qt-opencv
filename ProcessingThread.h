@@ -83,6 +83,7 @@ private:
     bool erodeOn;
     bool flipOn;
     bool cannyOn;
+    bool facedetectOn;
     // Processing settings
     int smoothType;
     int smoothParam1;
@@ -95,6 +96,7 @@ private:
     double cannyThreshold1;
     double cannyThreshold2;
     int cannyApertureSize;
+    double facedetectScale;
     // Task data
     bool setROIFlag;
     bool resetROIFlag;

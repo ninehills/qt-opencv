@@ -54,6 +54,7 @@ private slots:
     void resetErodeDialogToDefaults();
     void resetFlipDialogToDefaults();
     void resetCannyDialogToDefaults();
+    void resetFaceDetectToDefaults();
     void validateDialog();
     void smoothTypeChange(QAbstractButton*);
 signals:

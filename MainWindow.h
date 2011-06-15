@@ -72,6 +72,7 @@ public slots:
     void setErode(bool);
     void setFlip(bool);
     void setCanny(bool);
+    void setFacedetect(bool);
     void setProcessingSettings();
     void updateMouseCursorPosLabel();
     void newMouseData(struct MouseData);

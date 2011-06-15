@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     ProcessingThread.cpp \
     ShowIplImage.cpp \
     FrameLabel.cpp \
-    ProcessingSettingsDialog.cpp
+    ProcessingSettingsDialog.cpp \
+    FaceDetect.cpp
 
 HEADERS  += MainWindow.h \
     CaptureThread.h \
@@ -30,6 +31,7 @@ HEADERS  += MainWindow.h \
     ShowIplImage.h \
     FrameLabel.h \
     ProcessingSettingsDialog.h \
-    Structures.h
+    Structures.h \
+    FaceDetect.h
 
 LIBS += -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_contrib -lopencv_legacy -lopencv_flann

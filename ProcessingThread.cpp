@@ -33,6 +33,7 @@
 #include "ImageBuffer.h"
 #include "ProcessingThread.h"
 #include "ShowIplImage.h"
+#include "FaceDetect.h"
 
 // Qt header files
 #include <QDebug>
@@ -62,6 +63,7 @@ ProcessingThread::ProcessingThread(ImageBuffer *imageBuffer, int inputSourceWidt
     erodeOn=false;
     flipOn=false;
     cannyOn=false;
+    facedetectOn=false;
     // Initialize task flags
     setROIFlag=false;
     resetROIFlag=false;
@@ -77,6 +79,7 @@ ProcessingThread::ProcessingThread(ImageBuffer *imageBuffer, int inputSourceWidt
     cannyThreshold1=DEFAULT_CANNY_THRESHOLD_1;
     cannyThreshold2=DEFAULT_CANNY_THRESHOLD_2;
     cannyApertureSize=DEFAULT_CANNY_APERTURE_SIZE;
+    facedetectScale=DEFAULT_FACEDETECT_SCALE;
     // Initialize currentROI variable
     currentROI=cvRect(0,0,inputSourceWidth,inputSourceHeight);
     // Store original ROI
@@ -187,6 +190,11 @@ void ProcessingThread::run()
                             cannyThreshold1,cannyThreshold2,
                             cannyApertureSize);
                 } // if
+                // facedetect
+                if(facedetectOn)
+                {
+                    faceDetect(currentFrameCopy, facedetectScale);
+                } // if
             } // else
             ////////////////////////////////////
             // PERFORM IMAGE PROCESSING ABOVE //
@@ -283,6 +291,7 @@ void ProcessingThread::updateProcessingFlags(struct ProcessingFlags processingFl
     this->erodeOn=processingFlags.erodeOn;
     this->flipOn=processingFlags.flipOn;
     this->cannyOn=processingFlags.cannyOn;
+    this->facedetectOn=processingFlags.facedetectOn;
 } // updateProcessingFlags()
 
 void ProcessingThread::updateProcessingSettings(struct ProcessingSettings processingSettings)
@@ -299,6 +308,7 @@ void ProcessingThread::updateProcessingSettings(struct ProcessingSettings proces
     this->cannyThreshold1=processingSettings.cannyThreshold1;
     this->cannyThreshold2=processingSettings.cannyThreshold2;
     this->cannyApertureSize=processingSettings.cannyApertureSize;
+    this->facedetectScale=processingSettings.facedetectScale;
 } // updateProcessingSettings()
 
 void ProcessingThread::updateTaskData(struct TaskData taskData)

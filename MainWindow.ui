@@ -616,7 +616,7 @@
      <x>0</x>
      <y>0</y>
      <width>661</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mainMenu">
@@ -644,6 +644,7 @@
     <addaction name="erodeAction"/>
     <addaction name="flipAction"/>
     <addaction name="cannyAction"/>
+    <addaction name="facedetectAction"/>
     <addaction name="separator"/>
     <addaction name="settingsAction"/>
    </widget>
@@ -722,6 +723,14 @@
   <action name="settingsAction">
    <property name="text">
     <string>Settings...</string>
+   </property>
+  </action>
+  <action name="facedetectAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>7: Facedetect</string>
    </property>
   </action>
  </widget>

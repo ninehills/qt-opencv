@@ -3,18 +3,11 @@
 using namespace std;
 using namespace cv;
 
-//TODO: hardcoding!, need cascade files in run  directory
-String g_cascadeName =
-"haarcascades/haarcascade_frontalface_alt.xml";
-String g_nestedCascadeName =
-"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
-
-CascadeClassifier g_cascade, g_nestedCascade;
-
-void detectAndDraw( Mat& img,
+void faceDetect( IplImage *iplImage,
                    CascadeClassifier& cascade, CascadeClassifier& nestedCascade,
                    double scale)
 {
+    Mat img = cvarrToMat(iplImage);
     int i = 0;
     double t = 0;
     vector<Rect> faces;
@@ -72,20 +65,4 @@ void detectAndDraw( Mat& img,
             circle( img, center, radius, color, 3, 8, 0 );
         }
     }
-}
-
-int initFaceDetect(void)
-{
-    if(!g_cascade.load(g_cascadeName))
-        return -1;
-    if(!g_nestedCascade.load(g_nestedCascadeName))
-        return -1;
-    return 0;
-}
-
-int faceDetect(IplImage *iplImage, double scale)
-{
-    Mat img = cvarrToMat(iplImage);
-    detectAndDraw(img, g_cascade, g_nestedCascade, scale);
-    return 0;
 }

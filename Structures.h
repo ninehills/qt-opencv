@@ -50,6 +50,8 @@ struct ProcessingSettings{
     double cannyThreshold2;
     int cannyApertureSize;
     double facedetectScale;
+    QString facedetectCascadeFilename;
+    QString facedetectNestedCascadeFilename;
 };
 
 // ProcessingFlags structure definition

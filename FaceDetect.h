@@ -11,7 +11,8 @@
 
 #include <iostream>
 
-int initFaceDetect(void);
-int faceDetect(IplImage *, double);
+void faceDetect( IplImage *iplImage,
+                   cv::CascadeClassifier& cascade, cv::CascadeClassifier& nestedCascade,
+                   double scale);
 
 #endif // FACEDETECT_H

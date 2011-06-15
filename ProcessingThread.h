@@ -40,6 +40,7 @@
 #include <QtGui>
 // OpenCV header files
 #include <opencv/highgui.h>
+#include <opencv2/objdetect/objdetect.hpp>
 
 class ImageBuffer;
 
@@ -97,6 +98,11 @@ private:
     double cannyThreshold2;
     int cannyApertureSize;
     double facedetectScale;
+    QString facedetectCascadeFilename;
+    QString facedetectNestedCascadeFilename;
+    cv::CascadeClassifier facedetectCascade;
+    cv::CascadeClassifier facedetectNestedCascade;
+    int loadCascade();
     // Task data
     bool setROIFlag;
     bool resetROIFlag;

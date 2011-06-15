@@ -195,6 +195,10 @@ void ProcessingThread::run()
                 // facedetect
                 if(facedetectOn)
                 {
+                    if(facedetectCascadeFile.empty())
+                        qDebug() << "ERROR: cascade file missed.";
+                    if(facedetectNestedCascadeFile.empty())
+                        qDebug() << "ERROR: nested cascade file missed.";
                     faceDetect(currentFrameCopy, facedetectCascadeFile, facedetectNestedCascadeFile, facedetectScale);
                 } // if
             } // else
